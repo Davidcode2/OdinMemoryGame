@@ -16,7 +16,7 @@ export default function Card({ pokemon }) {
 
   return (
     <>
-      <div className="text-center">
+      <div className="text-center rounded-lg hover:bg-stone-700 cursor-pointer">
         <img src={imageUrl} alt="" />
         <div>{pokemon.name}</div>
       </div>
