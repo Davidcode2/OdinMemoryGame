@@ -4,7 +4,6 @@ import PokemonService from './services/pokemonService'
 import Card from './components/card'
 
 function App() {
-  const [count, setCount] = useState(0)
   const [pokemons, setPokemons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState(0);
@@ -12,12 +11,15 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const list = await pokemonService.getPokemonsList();
+      const list = await pokemonService.getPokemonObjects();
       setPokemons(list);
       setLoading(false);
     }
     fetchData();
   }, [setPokemons]);
+
+  const shuffleCards = () => {
+  }
 
   return (
     <>
@@ -28,7 +30,7 @@ function App() {
       <div className="h-screen flex justify-center">
         {loading && <div className="animate-spin">|</div>}
         <div className="grid grid-cols-5 justify-items-center gap-x-10 my-20">
-          {pokemons && pokemons.map(pokemon => <Card pokemon={pokemon} />)}
+          {pokemons && pokemons.map(pokemon => <Card key={pokemon.id} pokemon={pokemon} />)}
         </div>
       </div>
     </>
