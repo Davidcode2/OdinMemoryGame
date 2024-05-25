@@ -1,5 +1,5 @@
 export default class PokemonService {
-  pokemonListUrl = 'https://pokeapi.co/api/v2/pokemon?limit=10&offset=0';
+  pokemonListUrl = 'https://pokeapi.co/api/v2/pokemon?limit=25&offset=0';
 
   async getPokemonsList() {
     const res = await fetch(this.pokemonListUrl);

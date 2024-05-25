@@ -16,8 +16,10 @@ export default function Card({ pokemon }) {
 
   return (
     <>
-      <img src={imageUrl} alt="" />
-      <div>{pokemon.name}</div>
+      <div className="text-center">
+        <img src={imageUrl} alt="" />
+        <div>{pokemon.name}</div>
+      </div>
     </>
   )
 }

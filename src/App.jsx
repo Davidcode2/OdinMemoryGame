@@ -20,8 +20,12 @@ function App() {
 
   return (
     <>
-      {loading && <div className="animate-spin">|</div>}
-      {pokemons && pokemons.map(pokemon => <Card pokemon={pokemon} />)}
+      <div className="h-screen flex justify-center">
+        {loading && <div className="animate-spin">|</div>}
+        <div className="grid grid-cols-5 justify-items-center gap-x-10 my-20">
+          {pokemons && pokemons.map(pokemon => <Card pokemon={pokemon} />)}
+        </div>
+    </div>
     </>
   )
 }
