@@ -1,16 +1,17 @@
 export default class PokemonService {
-  pokemonListUrl = 'https://pokeapi.co/api/v2/pokemon?limit=25&offset=0';
+  pageSize = 25;
 
-  async getPokemonObjects() {
-    const list = await this.getPokemonsList();
+  async getPokemonObjects(offset) {
+    const list = await this.getPokemonsList(offset);
     const urls = await this.getPokemonUrls(list);
-    const pokemons = await this.getPokemons(urls)
+    const pokemons = await this.getPokemons(urls);
     const pokemonsObjects = this.makePokemonObject(pokemons);
     return pokemonsObjects;
   }
 
-  async getPokemonsList() {
-    const res = await fetch(this.pokemonListUrl);
+  async getPokemonsList(offset = 0) {
+    const pokemonListUrl = `https://pokeapi.co/api/v2/pokemon?limit=25&offset=${offset}`;
+    const res = await fetch(pokemonListUrl);
     const json = await res.json();
     const pokemonsList = json.results;
     return pokemonsList;
@@ -43,12 +44,12 @@ export default class PokemonService {
   }
 
   async makePokemonObject(pokemons) {
-    const pokemonObjects = pokemons.map(async (pokemon) => { 
+    const pokemonObjects = pokemons.map(async (pokemon) => {
       return {
         image: await this.getFormUrl(pokemon),
         name: pokemon.name,
-        id: pokemon.id
-      }
+        id: pokemon.id,
+      };
     });
     return Promise.all(pokemonObjects);
   }
