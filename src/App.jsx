@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import squirtleImage from './assets/squirtle.png'
 import PokemonService from './services/pokemonService'
 import Card from './components/card'
 
@@ -15,16 +16,13 @@ function App() {
     setHighScore(selectedCards.length);
   }
 
-  if (selectedCards.length === pokemonService.pageSize) {
-    setPage(page + 1);
-  }
-
   useEffect(() => {
     async function fetchData() {
       const list = await pokemonService.getPokemonObjects(page * pokemonService.pageSize);
       setPokemons(list);
       setLoading(false);
     }
+    setLoading(true);
     fetchData();
   }, [setPokemons, page]);
 
@@ -37,6 +35,9 @@ function App() {
     const pokemonsCopy = [...pokemons]
     pokemonsCopy.sort((a,b) => makeRandom(a.id) < makeRandom(b.id));
     setPokemons(pokemonsCopy);
+    if (selectedCards.length == pokemonService.pageSize - 1) {
+      setPage(page + 1);
+    }
   }
 
   const makeRandom = (x) => {
@@ -52,10 +53,11 @@ function App() {
         <button onClick={changeOffset} className="border border-slate-600 p-4 rounded-lg mt-5">Neue Pokemon laden</button>
       </div>
       <div className="h-screen flex justify-center">
-        {loading && <div className="animate-spin">|</div>}
+        {loading ? <div className="animate-spin self-center"><img src={squirtleImage} alt=""/></div> :
         <div className="grid md:grid-cols-5 sm:grid-cols-4 grid-cols-3 justify-items-center gap-x-10 xl:my-20 mx-10 xl:mx-0">
           {pokemons && pokemons.map(pokemon => <Card key={pokemon.id} pokemon={pokemon} shuffle={shuffleCards} {...{selectedCards, setSelectedCards}} />)}
         </div>
+        }
       </div>
     </>
   )
