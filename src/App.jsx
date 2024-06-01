@@ -33,30 +33,31 @@ function App() {
 
   const shuffleCards = () => {
     const pokemonsCopy = [...pokemons]
-    pokemonsCopy.sort((a,b) => makeRandom(a.id) < makeRandom(b.id));
-    setPokemons(pokemonsCopy);
+    pokemonsCopy.sort(() => Math.random() - 0.5);
     if (selectedCards.length == pokemonService.pageSize - 1) {
       setPage(page + 1);
     }
-  }
-
-  const makeRandom = (x) => {
-    const randomNumber = x * Math.random() * 10;
-    return randomNumber;
+    setPokemons(pokemonsCopy);
   }
 
   return (
     <>
       <div className="xl:absolute m-10">
-        <div className="flex gap-x-4 items-center">Score <p className="text-xl text-fuchsia-500">{selectedCards.length}</p></div>
-        <div className="flex gap-x-4 items-center">High Score <p className="text-2xl text-green-500">{highScore}</p></div>
+        <div className="flex gap-x-5">
+          <h1 className="flex gap-x-4 items-center">Score</h1>
+          <span className="text-xl text-fuchsia-500">{selectedCards.length}</span>
+        </div>
+        <div className="flex gap-x-5">
+          <h2 className="flex gap-x-4 items-center">High Score</h2>
+          <span className="text-2xl text-green-500">{highScore}</span>
+        </div>
         <button onClick={changeOffset} className="border border-slate-600 p-4 rounded-lg mt-5">Neue Pokemon laden</button>
       </div>
       <div className="h-screen flex justify-center">
-        {loading ? <div className="animate-spin self-center"><img src={squirtleImage} alt=""/></div> :
-        <div className="grid md:grid-cols-5 sm:grid-cols-4 grid-cols-3 justify-items-center gap-x-10 xl:my-20 mx-10 xl:mx-0">
-          {pokemons && pokemons.map(pokemon => <Card key={pokemon.id} pokemon={pokemon} shuffle={shuffleCards} {...{selectedCards, setSelectedCards}} />)}
-        </div>
+        {loading ? <div className="animate-spin self-center"><img src={squirtleImage} alt="" /></div> :
+          <div className="grid md:grid-cols-5 sm:grid-cols-4 grid-cols-3 justify-items-center gap-x-10 xl:my-20 mx-10 xl:mx-0">
+            {pokemons && pokemons.map(pokemon => <Card key={pokemon.id} pokemon={pokemon} shuffle={shuffleCards} {...{ selectedCards, setSelectedCards }} />)}
+          </div>
         }
       </div>
     </>
